@@ -33,7 +33,7 @@ DES_PATH_NAME = "D:/RAA/DATA/BBT/TOK/"
 for id_episode, items in MY_DATA.items():
     saison = id_episode.split("X")[0]
     episode = id_episode.split("X")[1]
-    SRC_NAME = SRC_PATH_NAME + f"[ OxTorrent.com ] The Big Bang Theory S{saison} DVDRip/"
+    SRC_NAME = SRC_PATH_NAME + f"S{saison}/"
     for type_video, item in items.items():
         src = SRC_NAME + f"{episode}.avi"
         des = DES_PATH_NAME + f"{episode}X{type_video}.avi"
