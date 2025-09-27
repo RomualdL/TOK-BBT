@@ -1,6 +1,6 @@
 from moviepy.video.io.VideoFileClip import VideoFileClip
 import os
-import subprocess
+import subprocess,json
 
 
 def couper_sequence(video_path, start_time, end_time, output_path):
@@ -16,15 +16,29 @@ def couper_sequence(video_path, start_time, end_time, output_path):
     try:
         with VideoFileClip(video_path) as clip:
             subclip = clip.subclip(start_time, end_time)
-            subclip.write_videofile(output_path, codec="mpeg4")
+            subclip.write_videofile(output_path, codec="libx264")
         print(f"✅ Vidéo exportée : {output_path}")
     except Exception as e:
         print(f"❌ Erreur : {e}")
         
+def jsonData(jsonFile):
+    with open(jsonFile, "r", encoding="utf-8") as f:
+        return json.load(f)
+        
+        
+MY_DATA = jsonData("BBT.json")
+SRC_PATH_NAME = "D:/RAA/DATA/BBT/Original/"
+DES_PATH_NAME = "D:/RAA/DATA/BBT/TOK/"
 
-PATH_NAME = "C:/Users/Utilisateur/Downloads/[ OxTorrent.com ] The Big Bang Theory S01 DVDRip/"
+for id_episode, items in MY_DATA.items():
+    saison = id_episode.split("X")[0]
+    episode = id_episode.split("X")[1]
+    SRC_NAME = SRC_PATH_NAME + f"[ OxTorrent.com ] The Big Bang Theory S{saison} DVDRip/"
+    for type_video, item in items.items():
+        src = SRC_NAME + f"{episode}.avi"
+        des = DES_PATH_NAME + f"{episode}X{type_video}.avi"
+        couper_sequence(src,item[0],item[1],des)
 
-src = PATH_NAME + "01.avi"
-des = PATH_NAME + "cc01.avi"
 
-couper_sequence(src,"60","120",des)
+
+#couper_sequence(src,"60","120",des)
